@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -51,11 +52,47 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cv.put(EMAIL_COL, contactModel.getEmail());
 
         long insert = db.insert(CONTACTS_TABLE, null, cv);
-        if (insert == -1) {
+        if (insert == -1)
             return false;
-        } else {
+        else
             return true;
+    }
+
+    public ContactModel getContact(int id){
+        ContactModel selectedContact = new ContactModel();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String inputString = "SELECT * FROM " + CONTACTS_TABLE + " WHERE " + ID_COL + " = " + id;
+        Cursor cursor = db.rawQuery(inputString, null);
+
+        if(cursor.moveToFirst()){
+            do {
+                selectedContact.setId(cursor.getInt(0));
+                selectedContact.setAvatar(cursor.getBlob(1));
+                selectedContact.setfName(cursor.getString(2));
+                selectedContact.setlName(cursor.getString(3));
+                selectedContact.setMobile(cursor.getString(4));
+                selectedContact.setHome(cursor.getString(5));
+                selectedContact.setEmail(cursor.getString(6));
+            }while(cursor.moveToNext());
         }
+        return selectedContact;
+    }
+
+    public boolean editContact(ContactModel contactModel){
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(AVATAR_COL, contactModel.getAvatar());
+        cv.put(FNAME_COL, contactModel.getfName());
+        cv.put(LNAME_COL, contactModel.getlName());
+        cv.put(MOBILE_COL, contactModel.getMobile());
+        cv.put(HOME_COL, contactModel.getHome());
+        cv.put(EMAIL_COL, contactModel.getEmail());
+
+        long insert = db.update(CONTACTS_TABLE, cv, ID_COL + " = " + contactModel.getId(), null);
+        if(insert == -1)
+            return true;
+        else
+            return false;
     }
 
     public List<String> getAllNames() {
@@ -83,6 +120,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         db.close();
         return returnList;
+    }
+
+    public void deleteContact(int id) {
+        String inputString = "DELETE FROM " + CONTACTS_TABLE + " WHERE " + ID_COL + " = " + id;
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL(inputString);
+        db.close();
     }
 
     public void deleteAll() {

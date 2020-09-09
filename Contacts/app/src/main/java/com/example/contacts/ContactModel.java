@@ -51,7 +51,7 @@ public class ContactModel {
 
     public byte[] getAvatar() { return avatar;}
 
-    public void setAvatar() {
+    public void setAvatar(byte[] avatar) {
         this.avatar = avatar;
     }
 
