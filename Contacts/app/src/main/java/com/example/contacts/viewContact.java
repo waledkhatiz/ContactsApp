@@ -36,7 +36,6 @@ public class viewContact extends AppCompatActivity {
         mobile = findViewById(R.id.mobileView);
         home = findViewById(R.id.homeView);
         email = findViewById(R.id.emailView);
-        avatar.setImageResource(R.drawable.cat);
         databaseHelper = new DatabaseHelper(viewContact.this);
 
         Intent intent = getIntent();

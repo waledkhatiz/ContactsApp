@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:background="#2f4f4f">
+        android:background="@color/colorPrimaryDark">
 
         <ImageView
             android:id="@+id/avatar"
@@ -28,18 +28,18 @@
         android:id="@+id/nameView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
+        android:layout_margin="10dp"
         android:layout_marginTop="20dp"
         android:text="testing"
         android:textSize="20sp"
+        android:gravity="center"
         app:layout_constraintTop_toBottomOf="@+id/header"/>
 
     <TextView
         android:id="@+id/mobileView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_margin="10dp"
         android:text="testing"
         android:textSize="20sp"
         app:layout_constraintTop_toBottomOf="@+id/nameView"/>
@@ -48,8 +48,7 @@
         android:id="@+id/homeView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_margin="10dp"
         android:text="testing"
         android:textSize="20sp"
         app:layout_constraintTop_toBottomOf="@+id/mobileView"/>
@@ -58,8 +57,7 @@
         android:id="@+id/emailView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_margin="10dp"
         android:text="testing"
         android:textSize="20sp"
         app:layout_constraintTop_toBottomOf="@+id/homeView"/>

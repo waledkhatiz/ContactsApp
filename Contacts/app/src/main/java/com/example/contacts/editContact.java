@@ -20,6 +20,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -53,7 +54,6 @@ public class editContact extends AppCompatActivity {
         email = findViewById(R.id.emailInput);
         databaseHelper = new DatabaseHelper(editContact.this);
 
-        avatar.setImageResource(R.drawable.cat);
         avatar.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP_MR1)
             @Override

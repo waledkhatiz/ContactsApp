@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.service.autofill.RegexValidator;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -26,6 +27,7 @@ import android.widget.Toast;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.regex.Pattern;
 
 public class addContact extends AppCompatActivity {
 
@@ -50,7 +52,7 @@ public class addContact extends AppCompatActivity {
         mobile = findViewById(R.id.mobileInput);
         home = findViewById(R.id.homeInput);
         email = findViewById(R.id.emailInput);
-        displayPic.setImageResource(R.drawable.cat);
+        displayPic.setImageResource(R.drawable.defaultprofile);
         dataBaseHelper = new DatabaseHelper(addContact.this);
 
         displayPic.setOnClickListener(new View.OnClickListener() {
@@ -95,21 +97,26 @@ public class addContact extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.save:
-                try {
-                    contactModel = new ContactModel(-1, getByteFromDrawable(displayPic.getDrawable()),
-                            fName.getText().toString(), lName.getText().toString(), mobile.getText().toString(),
-                            home.getText().toString(), email.getText().toString());
-                    Intent intent = new Intent(this, MainActivity.class);
-                    startActivity(intent);
-                } catch(Exception e) {
-                    Toast.makeText(addContact.this, "Failed", Toast.LENGTH_SHORT).show();
-                    contactModel = new ContactModel(-1, null, "error",
-                            "error", "error", "error", "error");
-                    System.out.println(e.getMessage());
-                }
+                if(fName.getText().toString().matches("")) {
+                    fName.setHint("name required");
+                    fName.setHintTextColor(getResources().getColor(R.color.errorRed));
+                }else {
+                    try {
+                        contactModel = new ContactModel(-1, getByteFromDrawable(displayPic.getDrawable()),
+                                fName.getText().toString(), lName.getText().toString(), mobile.getText().toString(),
+                                home.getText().toString(), email.getText().toString());
+                        Intent intent = new Intent(this, MainActivity.class);
+                        startActivity(intent);
+                    } catch (Exception e) {
+                        Toast.makeText(addContact.this, "Failed", Toast.LENGTH_SHORT).show();
+                        contactModel = new ContactModel(-1, null, "error",
+                                "error", "error", "error", "error");
+                        System.out.println(e.getMessage());
+                    }
 
-                boolean result = dataBaseHelper.addContact(contactModel);
-                Toast.makeText(addContact.this, "Success: " + result, Toast.LENGTH_SHORT).show();
+                    boolean result = dataBaseHelper.addContact(contactModel);
+                    Toast.makeText(addContact.this, "Success: " + result, Toast.LENGTH_SHORT).show();
+                }
         }
         return super.onOptionsItemSelected(item);
     }
