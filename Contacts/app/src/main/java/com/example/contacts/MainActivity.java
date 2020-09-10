@@ -34,8 +34,11 @@ public class MainActivity extends AppCompatActivity {
                 AdapterView.OnItemClickListener contactSelected = new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int selected, long l) {
+                        String fullName = (String)contactList.getItemAtPosition(selected);
+                        String[] separateNames = fullName.split(" ");
+                        String fName = separateNames[0];
                         Intent intent = new Intent(MainActivity.this, viewContact.class);
-                        intent.putExtra("selectedId", selected + 1);
+                        intent.putExtra("selectedName", fName);
                         startActivity(intent);
                     }
                 };

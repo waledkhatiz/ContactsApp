@@ -78,6 +78,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return selectedContact;
     }
 
+    public ContactModel getContact(String fName){
+        ContactModel selectedContact = new ContactModel();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String inputString = "SELECT * FROM " + CONTACTS_TABLE + " WHERE " + FNAME_COL + " = \"" + fName + "\"";
+        Cursor cursor = db.rawQuery(inputString, null);
+
+        if(cursor.moveToFirst()){
+            do {
+                selectedContact.setId(cursor.getInt(0));
+                selectedContact.setAvatar(cursor.getBlob(1));
+                selectedContact.setfName(cursor.getString(2));
+                selectedContact.setlName(cursor.getString(3));
+                selectedContact.setMobile(cursor.getString(4));
+                selectedContact.setHome(cursor.getString(5));
+                selectedContact.setEmail(cursor.getString(6));
+            }while(cursor.moveToNext());
+        }
+        return selectedContact;
+    }
+
     public boolean editContact(ContactModel contactModel){
         SQLiteDatabase db = this.getReadableDatabase();
         ContentValues cv = new ContentValues();

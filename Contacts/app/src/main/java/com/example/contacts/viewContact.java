@@ -25,7 +25,7 @@ public class viewContact extends AppCompatActivity {
     TextView email;
     DatabaseHelper databaseHelper;
     ContactModel selectedContact;
-    Integer selectedId;
+    String selectedName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +40,8 @@ public class viewContact extends AppCompatActivity {
         databaseHelper = new DatabaseHelper(viewContact.this);
 
         Intent intent = getIntent();
-        selectedId = intent.getIntExtra("selectedId", -1);
-        selectedContact = databaseHelper.getContact(selectedId);
+        selectedName = intent.getStringExtra("selectedName");
+        selectedContact = databaseHelper.getContact(selectedName);
 
         Bitmap bitmap = BitmapFactory.decodeByteArray(selectedContact.getAvatar(), 0, selectedContact.getAvatar().length);
         avatar.setImageBitmap(bitmap);
@@ -63,11 +63,11 @@ public class viewContact extends AppCompatActivity {
         switch(item.getItemId()){
             case(R.id.editContact):
                 Intent intent1 = new Intent(viewContact.this, editContact.class);
-                intent1.putExtra("selectedId", selectedId);
+                intent1.putExtra("selectedId", selectedContact.getId());
                 startActivity(intent1);
                 break;
             case(R.id.delete):
-                databaseHelper.deleteContact(selectedId);
+                databaseHelper.deleteContact(selectedContact.getId());
                 Intent intent2 = new Intent(viewContact.this, MainActivity.class);
                 startActivity(intent2);
         }
