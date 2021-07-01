@@ -98,6 +98,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return selectedContact;
     }
 
+    public List<String> queryContact(String searchQuery){
+        List<String> searchResults = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String inputString = "SELECT * FROM " + CONTACTS_TABLE + " WHERE " + FNAME_COL + " LIKE \"%" + searchQuery + "%\"";
+        Cursor cursor = db.rawQuery(inputString, null);
+
+        if(cursor.moveToFirst()){
+            do {
+                int contactID = cursor.getInt(0);
+                byte[] avatar = cursor.getBlob(1);
+                String fName = cursor.getString(2);
+                String lName = cursor.getString(3);
+                searchResults.add(fName + lName);
+            } while(cursor.moveToNext());
+        } else {
+
+        }
+        cursor.close();
+        db.close();
+        return searchResults;
+    }
+
     public boolean editContact(ContactModel contactModel){
         SQLiteDatabase db = this.getReadableDatabase();
         ContentValues cv = new ContentValues();
